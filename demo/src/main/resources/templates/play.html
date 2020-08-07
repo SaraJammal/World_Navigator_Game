@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>World Navigator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+  <script type="text/javascript" th:src="socket.js"></script>
+</head>
+<body class="bg-dark">
+<div class="container">
+
+  <div style="height: 500px;" class="text-success pb-5 mb-3 mt-3" id="bigScreen">
+    <div style="white-space: pre;" id="screen"></div>
+  </div>
+  <input class="form-control text-white mt-3" type="text" placeholder="Enter your command here.." id="cmdInput"
+  style="background: #ffffff44;">
+</div>
+<style>
+  #bigScreen {
+    overflow-y: hidden;
+  }
+  ::-webkit-input-placeholder { /* Edge */
+    color: white;
+  }
+
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: white;
+  }
+
+  ::placeholder {
+    color: white;
+    opacity: 1;
+  }
+</style>
+
+<script>
+  let cmdInput = $('#cmdInput');
+  let screen = $('#screen');
+  cmdInput.keyup(function(ev) {
+    if(ev.keyCode === 13) {
+      ev.preventDefault();
+      let text = cmdInput.val();
+      screen.text(screen.text() + '- ' + text + '\n');
+      sendMessage(text);
+      cmdInput.val('');
+      $('#bigScreen').scrollTop(10000000);
+    }
+  });
+</script>
+</body>
+</html>

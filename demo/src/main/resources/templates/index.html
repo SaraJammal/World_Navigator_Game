@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>World Navigator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" />
+
+</head>
+<body>
+<div class="container-fluid bg-light d-flex align-items-center" style="min-height: 80px;">
+  <div class="container">
+    <h1>World Navigator</h1>
+
+  </div>
+</div>
+<div class="container mt-5">
+  <div>
+    <label class="h3">Enter your username:<br>
+      <input type="text" name="username" id="username" onkeyup="refresh()">
+    </label>
+    <div>
+      <form action="/createGame" method="POST">
+        <input type="hidden" name="username" class="usernameInput">
+        <input type="submit" id="create-btn" value="Create Game" disabled>
+      </form>
+      <div class="mt-4 list-group">
+        <div th:each="game : ${games}" class="list-group-item">
+          <div class="d-flex justify-content-between">
+            <h3 th:text="${'Game #' + game.id}"></h3>
+            <form th:action="${'/joinGame/' + game.id}" method="POST" th:if="${!game.started}">
+              <input type="hidden" name="username" class="usernameInput">
+              <input type="submit" value="Join" disabled>
+            </form>
+          </div>
+          <p th:text="${'Number of players: ' + game.players.size()}"></p>
+          <ul class="ml-3">
+            <li th:each="player : ${game.players}" th:text="${player.nameString}"></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  function refresh() {
+    let username = $('#username').val();
+
+    let usernameInputs = $('.usernameInput');
+    usernameInputs.val(username);
+
+    let btns = $('input[type=submit]');
+
+    if(username === "") {
+      btns.prop('disabled', true);
+    } else {
+      btns.prop('disabled', false);
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>World Navigator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" defer></script>
+  <script type="text/javascript" th:src="socket.js" defer></script>
+</head>
+<body>
+<div class="container">
+  <h3 th:text="${'Game #' + game.id}"></h3>
+  <h4 th:text="'Players:'"></h4>
+  <ul>
+    <li th:each="player : ${game.players}" th:text="${player.nameString}"></li>
+  </ul>
+  <div>
+    <form action="/leave"><input type="submit" value="Leave"></form>
+    <form action="/startGame" th:if="${player.ip == game.creator.ip}"><input type="submit" value="Start Game"></form>
+  </div>
+</div>
+</body>
+</html>
